@@ -12,6 +12,6 @@ require("ext");
 
 module.exports = {
     config: require("config"),
-    generator: require("generator"),
+    // generator: require("generator"),
     
 };
