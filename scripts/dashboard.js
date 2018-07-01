@@ -11,5 +11,6 @@ _.show_dashboard = function(){
     for(var name in Game.spawns){
       var controller = Game.spawns[name].room.controller;
       Game.spawns['pc_spawn'].room.visual.text(controller.info(), 48, 1+r_u_count, {color: 'lightgrey', align: 'right'});
+      r_u_count += 1;
     }
 };

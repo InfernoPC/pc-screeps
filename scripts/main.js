@@ -5,10 +5,13 @@ module.exports.loop = function () {
     _.gc();
     _.show_dashboard();
     
-    // creeps
-    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-    var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
+    // spawns
+
+
+    var harvesters = _.all_harvesters();
+    var builders = _.all_builders();
+    var upgraders = _.all_upgraders();
+    var large_upgaders = _.all_large_upgraders();
 
     if(!Game.spawns['pc_spawn'].spawning && upgraders.length < lib.config.max_upgrader_size){
         var new_name = "pcu" + (Game.time % 1000);
@@ -28,13 +31,13 @@ module.exports.loop = function () {
             console.log("new builder spawned: " + new_name);
         }
     }
-    if( Game.spawns['pc_spawn'].room.energyAvailable > 500 && !Game.spawns['pc_spawn'].spawning && builders.length < lib.config.max_large_upgrader_size){
+    if( Game.spawns['pc_spawn'].room.energyAvailable > 500 && !Game.spawns['pc_spawn'].spawning && large_upgaders.length < lib.config.max_large_upgrader_size){
         var new_name = "pclu" + (Game.time % 1000);
-        if(Game.spawns['pc_spawn'].spawnCreep([WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE], new_name, {memory: {role: 'upgrader'}}) == OK){
+        if(Game.spawns['pc_spawn'].spawn_large_upgrader(new_name) == OK){
             console.log("new builder spawned: " + new_name);
         }
     }
-    
+    // creeps
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.order){

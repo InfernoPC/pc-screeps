@@ -16,3 +16,16 @@ _.gc = function(){
     }
     return OK;
 };
+
+_.all_harvesters = function(){
+    return _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.body.length == 3);
+};
+_.all_builders = function(){
+    return _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.body.length == 3);
+};
+_.all_upgraders = function(){
+    return _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.body.length == 3);
+};
+_.all_large_upgraders = function(){
+    return _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader' && creep.body.length == 7);
+}
