@@ -4,7 +4,7 @@ Creep.prototype.energy_info = function(){
 }
 
 Creep.prototype.info = function(){
-    return `${this.memory.role} ${this.name} (${this.hits}/${this.hitsMax}) (${this.ticksToLive}): ${this.memory.task} ${this.energy_info()}`;
+    return `${this.memory.role} ${this.name} (${this.hits}/${this.hitsMax}) (${this.ticksToLive ? this.ticksToLive : "spawning"}): ${this.memory.task} ${this.energy_info()}`;
 }
 // ====================================== find something
 Creep.prototype.find_sites = function(){
@@ -19,9 +19,12 @@ Creep.prototype.find_storages = function(){
         }
     });
 };
-Creep.prototype.find_resources = function(){
-    return this.room.find(FIND_SOURCES);
+Creep.prototype.find_resource = function(){
+    var sources = this.room.find(FIND_SOURCES);
+    var serial_no = parseInt(this.name.split("_")[2]);
+    return sources[(serial_no % sources.length)];
 };
+
 
 // ====================================== go_doing work
 Creep.prototype.go_building = function(){
@@ -33,9 +36,9 @@ Creep.prototype.go_building = function(){
     }
 };
 Creep.prototype.go_harvesting = function(){
-    var sources = this.find_resources();
-    if(this.harvest(sources[0]) == ERR_NOT_IN_RANGE){
-        this.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+    var source = this.find_resource();
+    if(this.harvest(source) == ERR_NOT_IN_RANGE){
+        this.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
     }
     
 };
